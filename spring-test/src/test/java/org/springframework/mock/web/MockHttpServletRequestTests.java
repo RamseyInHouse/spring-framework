@@ -129,7 +129,7 @@ public class MockHttpServletRequestTests {
 
 	@Test
 	public void getReaderTwice() throws IOException {
-		assertEquals(
+		assertSame(
 				request.getReader(),
 				request.getReader());
 	}
@@ -147,7 +147,7 @@ public class MockHttpServletRequestTests {
 
 	@Test
 	public void getInputStreamTwice() throws IOException {
-		assertEquals(
+		assertSame(
 				request.getInputStream(),
 				request.getInputStream());
 	}
