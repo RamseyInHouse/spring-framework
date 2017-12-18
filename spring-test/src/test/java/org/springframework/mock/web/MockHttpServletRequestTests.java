@@ -127,6 +127,13 @@ public class MockHttpServletRequestTests {
 		request.getReader();
 	}
 
+	@Test
+	public void getReaderTwice() throws IOException {
+		assertEquals(
+				request.getReader(),
+				request.getReader());
+	}
+
 	@Test(expected = IllegalStateException.class)
 	public void getInputStreamAfterGettingReader() throws IOException {
 		try {
@@ -136,6 +143,13 @@ public class MockHttpServletRequestTests {
 			fail("Call to getReader() failed unexpectedly.");
 		}
 		request.getInputStream();
+	}
+
+	@Test
+	public void getInputStreamTwice() throws IOException {
+		assertEquals(
+				request.getInputStream(),
+				request.getInputStream());
 	}
 
 	@Test

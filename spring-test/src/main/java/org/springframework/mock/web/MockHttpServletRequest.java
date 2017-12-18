@@ -179,6 +179,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	private ContentExtractMethod contentExtractMethod;
 
 	@Nullable
+	private ServletInputStream inputStream;
+
+	@Nullable
+	private BufferedReader reader;
+
+	@Nullable
 	private String contentType;
 
 	private final Map<String, String[]> parameters = new LinkedHashMap<>(16);
@@ -495,10 +501,15 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
 	@Override
 	public ServletInputStream getInputStream() {
+		if (inputStream != null) {
+			return inputStream;
+		}
+
 		demandContentExtractMethod(ContentExtractMethod.INPUT_STREAM);
 
 		if (this.content != null) {
-			return new DelegatingServletInputStream(new ByteArrayInputStream(this.content));
+			inputStream = new DelegatingServletInputStream(new ByteArrayInputStream(this.content));
+			return inputStream;
 		}
 		else {
 			return EMPTY_SERVLET_INPUT_STREAM;
@@ -702,6 +713,10 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
 	@Override
 	public BufferedReader getReader() throws UnsupportedEncodingException {
+		if (reader != null) {
+			return reader;
+		}
+
 		demandContentExtractMethod(ContentExtractMethod.READER);
 
 		if (this.content != null) {
@@ -709,7 +724,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
 			Reader sourceReader = (this.characterEncoding != null) ?
 					new InputStreamReader(sourceStream, this.characterEncoding) :
 					new InputStreamReader(sourceStream);
-			return new BufferedReader(sourceReader);
+			reader = new BufferedReader(sourceReader);
+			return reader;
 		}
 		else {
 			return EMPTY_BUFFERED_READER;
