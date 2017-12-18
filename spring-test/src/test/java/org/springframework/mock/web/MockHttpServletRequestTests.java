@@ -116,6 +116,28 @@ public class MockHttpServletRequestTests {
 		assertNull(request.getContentAsByteArray());
 	}
 
+	@Test(expected = IllegalStateException.class)
+	public void getReaderAfterGettingInputStream() throws IOException {
+		try {
+			request.getInputStream();
+		}
+		catch (IllegalStateException e) {
+			fail("Call to getInputStream() failed unexpectedly.");
+		}
+		request.getReader();
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void getInputStreamAfterGettingReader() throws IOException {
+		try {
+			request.getReader();
+		}
+		catch (IllegalStateException e) {
+			fail("Call to getReader() failed unexpectedly.");
+		}
+		request.getInputStream();
+	}
+
 	@Test
 	public void setContentType() {
 		String contentType = "test/plain";
