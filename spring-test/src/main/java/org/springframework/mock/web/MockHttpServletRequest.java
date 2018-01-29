@@ -501,19 +501,19 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
 	@Override
 	public ServletInputStream getInputStream() {
-		if (inputStream != null) {
-			return inputStream;
+		if (this.inputStream != null) {
+			return this.inputStream;
 		}
 
 		demandContentExtractMethod(ContentExtractMethod.INPUT_STREAM);
 
 		if (this.content != null) {
-			inputStream = new DelegatingServletInputStream(new ByteArrayInputStream(this.content));
-			return inputStream;
+			this.inputStream = new DelegatingServletInputStream(new ByteArrayInputStream(this.content));
 		}
 		else {
-			return EMPTY_SERVLET_INPUT_STREAM;
+			this.inputStream = EMPTY_SERVLET_INPUT_STREAM;
 		}
+		return this.inputStream;
 	}
 
 	/**
@@ -713,8 +713,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
 	@Override
 	public BufferedReader getReader() throws UnsupportedEncodingException {
-		if (reader != null) {
-			return reader;
+		if (this.reader != null) {
+			return this.reader;
 		}
 
 		demandContentExtractMethod(ContentExtractMethod.READER);
@@ -724,19 +724,19 @@ public class MockHttpServletRequest implements HttpServletRequest {
 			Reader sourceReader = (this.characterEncoding != null) ?
 					new InputStreamReader(sourceStream, this.characterEncoding) :
 					new InputStreamReader(sourceStream);
-			reader = new BufferedReader(sourceReader);
-			return reader;
+			this.reader = new BufferedReader(sourceReader);
 		}
 		else {
-			return EMPTY_BUFFERED_READER;
+			this.reader = EMPTY_BUFFERED_READER;
 		}
+		return this.reader;
 	}
 
 	private void demandContentExtractMethod(ContentExtractMethod methodToDemand) {
-		if (contentExtractMethod != null && !contentExtractMethod.equals(methodToDemand)) {
-			throw new IllegalStateException(contentExtractMethod.methodName + "() has already been called for this request");
+		if (this.contentExtractMethod != null && !this.contentExtractMethod.equals(methodToDemand)) {
+			throw new IllegalStateException("Cannot call " + methodToDemand.methodName + "() after " + this.contentExtractMethod.methodName + "() has already been called for the current request");
 		}
-		contentExtractMethod = methodToDemand;
+		this.contentExtractMethod = methodToDemand;
 	}
 
 	public void setRemoteAddr(String remoteAddr) {
