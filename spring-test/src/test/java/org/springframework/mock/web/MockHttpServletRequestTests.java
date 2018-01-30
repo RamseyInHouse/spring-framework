@@ -116,9 +116,10 @@ public class MockHttpServletRequestTests {
 		assertNull(request.getContentAsByteArray());
 	}
 
+	@Test
 	public void getReaderAfterGettingInputStream() throws IOException {
 		exception.expect(IllegalStateException.class);
-		exception.expectMessage("Cannot call getReader() after getInputStream() has already been called for the current request.");
+		exception.expectMessage("Cannot call getReader() after getInputStream() has already been called for the current request");
 		try {
 			request.getInputStream();
 		}
@@ -135,9 +136,10 @@ public class MockHttpServletRequestTests {
 				request.getReader());
 	}
 
+	@Test
 	public void getInputStreamAfterGettingReader() throws IOException {
 		exception.expect(IllegalStateException.class);
-		exception.expectMessage("Cannot call getInputStream() after getReader() has already been called for the current request.");
+		exception.expectMessage("Cannot call getInputStream() after getReader() has already been called for the current request");
 		try {
 			request.getReader();
 		}
