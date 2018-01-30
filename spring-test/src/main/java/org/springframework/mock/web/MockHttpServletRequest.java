@@ -733,8 +733,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	private void demandContentExtractMethod(ContentExtractMethod methodToDemand) {
-		if (this.contentExtractMethod != null && !this.contentExtractMethod.equals(methodToDemand)) {
-			throw new IllegalStateException("Cannot call " + methodToDemand.methodName + "() after " + this.contentExtractMethod.methodName + "() has already been called for the current request");
+		if (this.contentExtractMethod != null && 
+				!this.contentExtractMethod.equals(methodToDemand)) {
+			throw new IllegalStateException(
+					"Cannot call " + methodToDemand.methodName + "()" + 
+					" after " + this.contentExtractMethod.methodName + "()" + 
+					" has already been called for the current request");
 		}
 		this.contentExtractMethod = methodToDemand;
 	}
