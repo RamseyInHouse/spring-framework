@@ -132,6 +132,8 @@ public class MockHttpServletRequestTests {
 
 	@Test
 	public void getReaderTwice() throws IOException {
+		byte[] bytes = "body".getBytes(Charset.defaultCharset());
+		request.setContent(bytes);
 		assertSame(
 				request.getReader(),
 				request.getReader());
@@ -153,6 +155,8 @@ public class MockHttpServletRequestTests {
 
 	@Test
 	public void getInputStreamTwice() throws IOException {
+		byte[] bytes = "body".getBytes(Charset.defaultCharset());
+		request.setContent(bytes);
 		assertSame(
 				request.getInputStream(),
 				request.getInputStream());
